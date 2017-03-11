@@ -29,10 +29,6 @@
   version "15.0.16"
   resolved "http://registry.npm.taobao.org/@types/react/download/@types/react-15.0.16.tgz#78e39511a9cfcabf7f74ecd55180522f4290a0c1"
 
-"@types/webpack-env@^1.13.0":
-  version "1.13.0"
-  resolved "http://registry.npm.taobao.org/@types/webpack-env/download/@types/webpack-env-1.13.0.tgz#3044381647e11ee973c5af2e925323930f691d80"
-
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
@@ -3167,6 +3163,12 @@ strip-indent@^1.0.1:
 strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
+
+style-loader@^0.13.2:
+  version "0.13.2"
+  resolved "http://registry.npm.taobao.org/style-loader/download/style-loader-0.13.2.tgz#74533384cf698c7104c7951150b49717adc2f3bb"
+  dependencies:
+    loader-utils "^1.0.2"
 
 supports-color@^2.0.0:
   version "2.0.0"

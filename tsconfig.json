@@ -19,7 +19,8 @@
     },
     "include": [
         "./src/**/*.tsx",
-        "./src/**/*.ts"
+        "./src/**/*.ts",
+        "./ts-declarations/**/*.d.ts"
     ],
     "exclude": [
         "node_modules"
