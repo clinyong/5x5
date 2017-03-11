@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "lib": [
+            "dom",
+            "es2015",
+            "es2016"
+        ],
+        "module": "es2015",
+        "target": "es5",
+        "jsx": "react",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "experimentalDecorators": true,
+        "noUnusedLocals": true,
+        "allowJs": true
+    },
+    "include": [
+        "./src/**/*.tsx",
+        "./src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
