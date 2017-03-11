@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    './src/main.tsx',
+    './src/index.tsx',
     // the entry point of our app
   ],
 
