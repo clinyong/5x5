@@ -1,6 +1,6 @@
 import * as React from "react";
 import store from "store";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { KEY, workouts, ExerciseProps } from "../../utils/constants";
 import { NavHead } from "../../components/NavHead";
 const styles = require("./index.scss");
@@ -46,26 +46,34 @@ export class Home extends React.Component<any, HomeState> {
     componentDidMount() {
         const settings = store.get(KEY);
         if (settings) {
-            const { exercises, currentWorkout, startDate } = settings;
-            const index = currentWorkout.index;
-            const current = workouts[index].map(w => exercises[w]);
-            const next = workouts[1 - index].map(w => exercises[w]);
+            const { recents } = settings
 
-            const recents = addDateToWorkouts([
-                { exercises: current, index: index },
-                {
-                    exercises: next.map((w, i) => {
-                        return i === 0 ? ({ name: w.name, weight: parseFloat(w.weight) + 1.25 }) : w;
-                    }),
-                    index: 1 - index,
-                },
-                {
-                    exercises: current.map(updateWeight),
-                    index: index,
-                },
-            ], startDate);
+            if (recents) {
+                this.setState({ recents })
+            } else {
+                const { exercises, currentWorkout, startDate } = settings;
+                const index = currentWorkout.index;
+                const current = workouts[index].map(w => exercises[w]);
+                const next = workouts[1 - index].map(w => exercises[w]);
 
-            this.setState({ recents })
+                const recents = addDateToWorkouts([
+                    { exercises: current, index: index },
+                    {
+                        exercises: next.map((w, i) => {
+                            return i === 0 ? ({ name: w.name, weight: parseFloat(w.weight) + 1.25 }) : w;
+                        }),
+                        index: 1 - index,
+                    },
+                    {
+                        exercises: current.map(updateWeight),
+                        index: index,
+                    },
+                ], startDate);
+
+                this.setState({ recents })
+                settings.recents = recents;
+                store.set(KEY, settings);
+            }
         }
     }
 
@@ -96,7 +104,7 @@ export class Home extends React.Component<any, HomeState> {
                     }
                 </ul>
 
-                <Link to="/begin" className={styles.beginWrapper}>
+                <Link to="/play" className={styles.beginWrapper}>
                     <i className={styles.begin}>
                         play_arrow
                     </i>

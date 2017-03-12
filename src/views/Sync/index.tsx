@@ -5,6 +5,12 @@ import { NavHead } from "../../components/NavHead";
 const styles = require("./index.scss");
 
 export class Sync extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+    
+        this.handleDownload = this.handleDownload.bind(this);
+    }
+
     handleUpload() {
         const settings = store.get(KEY);
         fetch('/api/upload', {
@@ -34,7 +40,7 @@ export class Sync extends React.Component<any, any> {
                         <i className={styles.md}>cloud_upload</i>
                     </button>
 
-                    <button className={styles.btn}>
+                    <button className={styles.btn} onClick={this.handleDownload}>
                         <i className={styles.md}>cloud_download</i>
                     </button>
                 </div>

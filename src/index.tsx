@@ -1,20 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Home } from './views/Home';
-import { Sync } from './views/Sync';
-import { Setting } from './views/Setting';
-import { Wrapper } from "./components/Wrapper";
-import { Router, Route, hashHistory, IndexRoute } from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { Play } from './views/Play';
+import { Wrapper } from "./views/Wrapper";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import "./index.scss";
 
 const App = () => (
-  <Router history={hashHistory}>
-    <Route path="/" component={Wrapper}>
-      <IndexRoute component={Home} />
-      <Route path="home" component={Home} />
-      <Route path="sync" component={Sync} />
-      <Route path="setting" component={Setting} />
-    </Route>
+  <Router>
+    <Switch>
+      <Route
+        path="/play"
+        render={({ location }) => {
+          return (
+            <ReactCSSTransitionGroup
+              transitionName="play"
+              transitionEnterTimeout={350}
+              transitionLeaveTimeout={350}
+              transitionAppear={true}
+              transitionAppearTimeout={350}
+            >
+              {
+                React.cloneElement(
+                  <Route
+                    location={location}
+                    path="/play"
+                    component={Play}
+                    key={location.key}
+                  />
+                )
+              }
+            </ReactCSSTransitionGroup>
+          )
+        }}
+      />
+      <Route path="/" component={Wrapper} />
+    </Switch>
   </Router>
 )
 

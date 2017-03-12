@@ -1,5 +1,8 @@
 import * as React from "react";
-import { Link } from 'react-router';
+import { Route, NavLink as Link, Switch, Redirect } from 'react-router-dom';
+import { Home } from '../Home';
+import { Sync } from '../Sync';
+import { Setting } from '../Setting';
 const styles = require("./index.scss");
 
 interface Menus {
@@ -12,7 +15,20 @@ interface HomeState {
     menus: Menus[];
 }
 
-export class Wrapper extends React.Component<any, HomeState> {
+interface RouterMatch {
+    url: string;
+}
+
+interface RouterLocation {
+    key: string;
+}
+
+interface WrapperProps {
+    match: RouterMatch;
+    location: RouterLocation;
+}
+
+export class Wrapper extends React.Component<WrapperProps, HomeState> {
     constructor(props) {
         super(props);
 
@@ -55,8 +71,14 @@ export class Wrapper extends React.Component<any, HomeState> {
 
     render() {
         return (
-            <div>
-                {this.props.children}
+            <div className={styles.container}>
+                <Switch>
+                    <Route exact path ="/" render={() => (<Redirect to="/home"/>)}/>
+                    <Route path="/home" component={Home} />
+                    <Route path="/sync" component={Sync} />
+                    <Route path="/setting" component={Setting} />
+                </Switch>
+                
                 <nav className={styles.nav}>
                     <ul className={styles.navList}>
                         {
