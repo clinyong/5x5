@@ -1,0 +1,85 @@
+{
+	"exercises": [
+		{
+			"name": "Squat",
+			"weight": 18.75
+		},
+		{
+			"name": "Bench Press",
+			"weight": "7.5"
+		},
+		{
+			"name": "Deadlift",
+			"weight": 13.75
+		},
+		{
+			"name": "Overhead Press",
+			"weight": "1.25"
+		},
+		{
+			"name": "Barbell Row",
+			"weight": "7.5"
+		}
+	],
+	"currentWorkout": {
+		"name": "b",
+		"id": 1
+	},
+	"startDate": "2017.03.14",
+	"recents": [
+		{
+			"exercises": [
+				{
+					"name": "Squat",
+					"weight": 18.75
+				},
+				{
+					"name": "Overhead Press",
+					"weight": "1.25"
+				},
+				{
+					"name": "Deadlift",
+					"weight": 13.75
+				}
+			],
+			"workoutID": 1,
+			"date": "2017.03.14"
+		},
+		{
+			"exercises": [
+				{
+					"name": "Squat",
+					"weight": 20
+				},
+				{
+					"name": "Bench Press",
+					"weight": "7.5"
+				},
+				{
+					"name": "Barbell Row",
+					"weight": "7.5"
+				}
+			],
+			"workoutID": 0,
+			"date": "2017.03.16"
+		},
+		{
+			"exercises": [
+				{
+					"name": "Squat",
+					"weight": 21.25
+				},
+				{
+					"name": "Overhead Press",
+					"weight": 2.5
+				},
+				{
+					"name": "Deadlift",
+					"weight": 15
+				}
+			],
+			"workoutID": 1,
+			"date": "2017.03.18"
+		}
+	]
+}

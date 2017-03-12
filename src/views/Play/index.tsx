@@ -18,10 +18,16 @@ function updateWeight(exercise, index) {
 }
 
 function toggleWorkout(w) {
-    return w.index === 0 ? { name: 'b', index: 1 } : { name: 'a', index: 0 };
+    return w.id === 0 ? { name: 'b', id: 1 } : { name: 'a', id: 0 };
 }
 
 export class Play extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+    
+        this.handleDone = this.handleDone.bind(this)
+    }
+
     handleDone() {
         const settings = store.get(KEY);
         const history = settings.history || [];
@@ -29,7 +35,7 @@ export class Play extends React.Component<any, any> {
 
         history.push(recents[0]);
 
-        const exerciseIndexes = workouts[recents[0].index];
+        const exerciseIndexes = workouts[recents[0].workoutID];
         exerciseIndexes.forEach((i) => {
             const e = settings.exercises[i];
             e.weight = parseFloat(e.weight) + 1.25;
@@ -38,7 +44,7 @@ export class Play extends React.Component<any, any> {
         const newWorkout = recents[1];
         recents.push({
             exercises: newWorkout.exercises.map(updateWeight),
-            index: newWorkout.index,
+            workoutID: newWorkout.workoutID,
             date: updateDate(newWorkout.date, 2)
         });
 
@@ -46,6 +52,7 @@ export class Play extends React.Component<any, any> {
 
         const latest = recents[0];
         store.set(KEY, Object.assign({}, settings, {
+            recents,
             history,
             currentWorkout: toggleWorkout(settings.currentWorkout),
             startDate: latest.date
@@ -64,7 +71,7 @@ export class Play extends React.Component<any, any> {
                 </div>
 
                 <div className={styles.content}>
-                    <button className={styles.done}>
+                    <button className={styles.done} onClick={this.handleDone}>
                         Done
                     </button>
                 </div>

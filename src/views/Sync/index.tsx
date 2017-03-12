@@ -9,6 +9,7 @@ export class Sync extends React.Component<any, any> {
         super(props);
     
         this.handleDownload = this.handleDownload.bind(this);
+        this.handleUpload = this.handleUpload.bind(this)
     }
 
     handleUpload() {
@@ -36,7 +37,7 @@ export class Sync extends React.Component<any, any> {
             <div>
                 <NavHead title={'SYNC'} />
                 <div className={styles.wrapper}>
-                    <button className={styles.btn}>
+                    <button className={styles.btn} onClick={this.handleUpload}>
                         <i className={styles.md}>cloud_upload</i>
                     </button>
 

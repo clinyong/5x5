@@ -45,36 +45,28 @@ export class Home extends React.Component<any, HomeState> {
 
     componentDidMount() {
         const settings = store.get(KEY);
-        if (settings) {
-            const { recents } = settings
+        const { exercises, currentWorkout, startDate } = settings;
+        const id = currentWorkout.id;
+        const current = workouts[id].map(w => exercises[w]);
+        const next = workouts[1 - id].map(w => exercises[w]);
 
-            if (recents) {
-                this.setState({ recents })
-            } else {
-                const { exercises, currentWorkout, startDate } = settings;
-                const index = currentWorkout.index;
-                const current = workouts[index].map(w => exercises[w]);
-                const next = workouts[1 - index].map(w => exercises[w]);
+        const recents = addDateToWorkouts([
+            { exercises: current, workoutID: id },
+            {
+                exercises: next.map((w, i) => {
+                    return i === 0 ? ({ name: w.name, weight: parseFloat(w.weight) + 1.25 }) : w;
+                }),
+                workoutID: 1 - id,
+            },
+            {
+                exercises: current.map(updateWeight),
+                workoutID: id,
+            },
+        ], startDate);
 
-                const recents = addDateToWorkouts([
-                    { exercises: current, index: index },
-                    {
-                        exercises: next.map((w, i) => {
-                            return i === 0 ? ({ name: w.name, weight: parseFloat(w.weight) + 1.25 }) : w;
-                        }),
-                        index: 1 - index,
-                    },
-                    {
-                        exercises: current.map(updateWeight),
-                        index: index,
-                    },
-                ], startDate);
-
-                this.setState({ recents })
-                settings.recents = recents;
-                store.set(KEY, settings);
-            }
-        }
+        this.setState({ recents })
+        settings.recents = recents;
+        store.set(KEY, settings);
     }
 
     render() {
