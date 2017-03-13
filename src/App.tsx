@@ -2,7 +2,7 @@ import * as React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Play } from './views/Play';
 import { Wrapper } from "./views/Wrapper";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 export function App() {
     return (
