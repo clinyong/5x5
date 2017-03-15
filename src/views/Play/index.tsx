@@ -2,6 +2,7 @@ import * as React from "react";
 import store from "store";
 import { KEY, workouts } from "../../utils/constants";
 import { Link } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 const styles = require("./index.scss");
 
 function updateDate(startDate, base) {
@@ -21,11 +22,24 @@ function toggleWorkout(w) {
     return w.id === 0 ? { name: 'b', id: 1 } : { name: 'a', id: 0 };
 }
 
-export class Play extends React.Component<any, any> {
+interface PlayState {
+    count: number;
+    done: boolean;
+}
+
+export class Play extends React.Component<any, PlayState> {
+    exeCount: number;
+
     constructor(props) {
         super(props);
-    
+
         this.handleDone = this.handleDone.bind(this)
+        this.handleCount = this.handleCount.bind(this)
+        this.state = {
+            count: 0,
+            done: false
+        }
+        this.exeCount = 0;
     }
 
     handleDone() {
@@ -59,7 +73,36 @@ export class Play extends React.Component<any, any> {
         }));
     }
 
+    handleCount() {
+        const { count } = this.state;
+        const { exeCount } = this;
+
+        if (exeCount === 3) {
+            this.handleDone()
+            this.setState({
+                done: true
+            })
+        } else {
+            if (count === 5) {
+                this.exeCount += 1
+                this.setState({
+                    count: 0
+                })
+            } else {
+                this.setState({
+                    count: count + 1
+                })
+            }
+
+        }
+    }
+
     render() {
+        const { count, done } = this.state;
+        if (done) {
+            return <Redirect to="/" />
+        }
+
         return (
             <div className={styles.container}>
                 <div className={styles.head}
@@ -71,7 +114,10 @@ export class Play extends React.Component<any, any> {
                 </div>
 
                 <div className={styles.content}>
-                    <button className={styles.done} onClick={this.handleDone}>
+                    <div className={styles.count}>
+                        {count}
+                    </div>
+                    <button className={styles.done} onClick={this.handleCount}>
                         Done
                     </button>
                 </div>
