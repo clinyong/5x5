@@ -3,8 +3,7 @@ import store from "store";
 import dateFormat from "dateformat";
 import { KEY, TOKEN } from "../../utils/constants";
 import { NavHead } from "../../components/NavHead";
-
-const box = require("../../utils/dropbox-fetch")
+import box from "../../utils/dropbox-fetch";
 const styles = require("./index.scss");
 
 interface SyncState {

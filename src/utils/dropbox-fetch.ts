@@ -1,6 +1,5 @@
 'use strict';
 const assert = require('assert-plus');
-const fetch = require('node-fetch');
 
 /**
  * The authorization token with which calls to the API are made.
@@ -253,7 +252,7 @@ const getMetadata = (
   });
 };
 
-module.exports = {
+export default {
   AUTHORIZE_ENDPOINT,
   CONTENT_ENDPOINT,
   RPC_ENDPOINT,
