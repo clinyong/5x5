@@ -1,19 +1,32 @@
 import * as React from "react";
 import store from "store";
 import dateFormat from "dateformat";
-import { KEY } from "../../utils/constants";
+import { KEY, TOKEN } from "../../utils/constants";
 import { NavHead } from "../../components/NavHead";
 
 const box = require("../../utils/dropbox-fetch")
 const styles = require("./index.scss");
 
-export class Sync extends React.Component<any, any> {
+interface SyncState {
+    hasToken: boolean;
+    inputFocus: boolean;
+}
+
+export class Sync extends React.Component<any, SyncState> {
+    refs: {
+        tokenInput: HTMLInputElement;
+    }
+
     constructor(props) {
         super(props);
 
         this.handleDownload = this.handleDownload.bind(this);
         this.handleUpload = this.handleUpload.bind(this)
-        box.setToken('xvBKIaiH2fIAAAAAAAAC4rhc0AG1PsaII_pDvo4Lr_OAoFvURzYezpai85_Yvawt')
+        this.handleSetToken = this.handleSetToken.bind(this)
+        this.state = {
+            hasToken: false,
+            inputFocus: false
+        }
     }
 
     handleUpload() {
@@ -59,19 +72,72 @@ export class Sync extends React.Component<any, any> {
             });
     }
 
+    handleSetToken() {
+        const token = this.refs.tokenInput.value
+
+        if (token) {
+            store.set(TOKEN, token);
+            box.setToken(token)
+            this.setState({
+                hasToken: true
+            })
+        }
+    }
+
+
+    componentDidMount() {
+        const token = store.get(TOKEN)
+        if (token) {
+            box.setToken(token)
+            this.setState({
+                hasToken: true
+            })
+        }
+    }
+
+    renderSetToken() {
+        const { inputFocus } = this.state
+        return (
+            <div className={styles.setting}>
+                <div className={styles.inputWrapper}>
+                    <label htmlFor="tokenInput">Access Token: </label>
+                    <input
+                        type="text"
+                        className={inputFocus ? styles.tokenInputActive : styles.tokenInput}
+                        id="tokenInput"
+                        onFocus={() => this.setState({ inputFocus: true })}
+                        onBlur={() => this.setState({ inputFocus: false })}
+                        ref="tokenInput"
+                    />
+                </div>
+                <button className={styles.tokenBTN} onClick={this.handleSetToken}>
+                    Submit
+                </button>
+            </div>
+        )
+    }
+
+    renderSync() {
+        return (
+            <div className={styles.wrapper}>
+                <button className={styles.btn} onClick={this.handleUpload}>
+                    <i className={styles.md}>cloud_upload</i>
+                </button>
+
+                <button className={styles.btn} onClick={this.handleDownload}>
+                    <i className={styles.md}>cloud_download</i>
+                </button>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div>
                 <NavHead title={'SYNC'} />
-                <div className={styles.wrapper}>
-                    <button className={styles.btn} onClick={this.handleUpload}>
-                        <i className={styles.md}>cloud_upload</i>
-                    </button>
-
-                    <button className={styles.btn} onClick={this.handleDownload}>
-                        <i className={styles.md}>cloud_download</i>
-                    </button>
-                </div>
+                {
+                    this.state.hasToken ? this.renderSync() : this.renderSetToken()
+                }
             </div>
         )
     }

@@ -30,3 +30,47 @@
      margin: 60px auto 0;
      width: 100%;
  }
+ 
+ .setting {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     margin-top: 80px;
+ }
+ 
+ .inputWrapper {
+     font-size: 14px;
+     &>label {
+         color: #999;
+         margin-right: 5px;
+     }
+ }
+ 
+ .tokenInput {
+     padding: 5px;
+     border-width: 0;
+     border-bottom: 1px solid #999;
+     background-color: #FAFAFA;
+     width: 150px;
+     color: #999;
+     font-size: 14px;
+     &:focus {
+         outline-width: 0;
+     }
+ }
+ 
+ .tokenInputActive {
+     @extend .tokenInput;
+     color: #333;
+     border-bottom-color: #E53935;
+     border-bottom-width: 2px;
+ }
+ 
+ .tokenBTN {
+     @extend .btn;
+     padding: 8px 0px;
+     margin-top: 50px;
+     width: 120px;
+     text-align: center;
+ }

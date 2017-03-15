@@ -1,5 +1,6 @@
 export const KEY = 'KEY';
 export const WORKOUTS = 'WORKOUTS';
+export const TOKEN = 'TOKEN';
 
 export const exerciseNames = [
   'Squat',
