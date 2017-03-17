@@ -18,11 +18,7 @@ module.exports = {
             : config.dev.assetsPublicPath
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js',
-            '@': resolve('src'),
-        }
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
     module: {
         rules: [
