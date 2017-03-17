@@ -29,19 +29,21 @@
   
   .settings {
       margin-top: 40px;
-      width: 300px;
+      width: 280px;
       margin: 30px auto 0;
       padding-left: 10px;
-      
       li {
           margin-bottom: 20px;
           display: flex;
           align-items: center;
       }
+      span {
+          color: #616161;
+          font-size: 14px;
+      }
       input {
-          width: 150px;
+          width: 130px;
           box-sizing: border-box;
-          border: 1px solid #ddd;
           padding: 8px;
           margin-left: auto;
       }

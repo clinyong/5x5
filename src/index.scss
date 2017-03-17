@@ -5,6 +5,17 @@
         margin: 0;
         background-color: #FAFAFA;
     }
+    input {
+        border: 0;
+        background-color: transparent;
+        border-bottom: 1px solid #E0E0E0;
+        color: #757575;
+        &:hover {
+            outline-width: 0;
+            border-bottom: 2px solid #E53935;
+            color: #212121;
+        }
+    }
     #root {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -12,8 +23,7 @@
         color: #2c3e50;
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
         height: 100%;
-
-        & > span {
+        &>span {
             display: block;
             height: 100%;
         }
