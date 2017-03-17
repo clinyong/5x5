@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "node build/build.js",
+    "prod": "node build/build.js",
     "dev": "node build/dev-server.js"
   },
   "keywords": [],
