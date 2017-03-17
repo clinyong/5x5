@@ -16,7 +16,7 @@ exports.cssLoaders = function (options) {
         loader: 'css-loader',
         options: {
             modules: true,
-            localIdentName: '[hash:base64:5]',
+            localIdentName: process.env.NODE_ENV === 'production' ? '[hash:base64:5]': '[local]--[hash:base64:5]',
             minimize: process.env.NODE_ENV === 'production',
             sourceMap: options.sourceMap
         }
@@ -49,7 +49,7 @@ exports.cssLoaders = function (options) {
     // http://vuejs.github.io/vue-loader/en/configurations/extract-css.html
     return {
         scss: generateLoaders('sass')
-   }
+    }
 }
 
 // Generate loaders for standalone style files (outside of .vue)
