@@ -1,9 +1,9 @@
 import * as React from "react";
 import store from "store";
 import dateFormat from "dateformat";
+import { Dropbox } from "../../utils/Dropbox";
 import { KEY, TOKEN } from "../../utils/constants";
 import { NavHead } from "../../components/NavHead";
-import box from "../../utils/dropbox-fetch";
 const styles = require("./index.scss");
 
 interface SyncState {
@@ -15,6 +15,7 @@ export class Sync extends React.Component<any, SyncState> {
     refs: {
         tokenInput: HTMLInputElement;
     }
+    box: Dropbox;
 
     constructor(props) {
         super(props);
@@ -26,13 +27,14 @@ export class Sync extends React.Component<any, SyncState> {
             hasToken: false,
             inputFocus: false
         }
+        this.box = new Dropbox();
     }
 
     handleUpload() {
         const settings = store.get(KEY);
         const fileName = dateFormat(new Date(), "yyyy-mm-dd-HH-MM-ss")
 
-        box.upload({ path: `/${fileName}.json` }, JSON.stringify(settings))
+        this.box.filesUpload(`/${fileName}.json`, JSON.stringify(settings))
             .then(function (response) {
                 console.log(response);
             })
@@ -42,8 +44,8 @@ export class Sync extends React.Component<any, SyncState> {
     }
 
     handleDownload() {
-        box.listFiles('')
-            .then(resp => resp.json())
+        const self = this
+        this.box.filesListFolder({ path: '' })
             .then(function (response) {
                 const latestEntry = response.entries
                     .filter(entry => entry['.tag'] === 'file' && entry.path_lower.endsWith('.json'))
@@ -59,12 +61,10 @@ export class Sync extends React.Component<any, SyncState> {
                     return
                 }
 
-                box.download(latestEntry.path_lower)
-                    .then(resp => resp.json())
+                self.box.filesDownload(latestEntry.path_lower)
                     .then(settings => {
-                        // do whatever you want with the file's contents, e.g. write to a file or just log 
                         store.set(KEY, settings)
-                    });
+                    })
             })
             .catch(function (err) {
                 console.log(err);
@@ -76,7 +76,7 @@ export class Sync extends React.Component<any, SyncState> {
 
         if (token) {
             store.set(TOKEN, token);
-            box.setToken(token)
+            this.box.setToken(token)
             this.setState({
                 hasToken: true
             })
@@ -87,7 +87,7 @@ export class Sync extends React.Component<any, SyncState> {
     componentDidMount() {
         const token = store.get(TOKEN)
         if (token) {
-            box.setToken(token)
+            this.box.setToken(token)
             this.setState({
                 hasToken: true
             })
