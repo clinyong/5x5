@@ -16,6 +16,11 @@
             color: #212121;
         }
     }
+    ul, li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
     #root {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
