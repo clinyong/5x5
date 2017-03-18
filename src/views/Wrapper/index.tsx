@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Route, NavLink as Link, Switch, Redirect } from 'react-router-dom';
-import { Home } from '../Home';
-import { Sync } from '../Sync';
-import { Setting } from '../Setting';
+import { Route, NavLink as Link, Switch, Redirect } from "react-router-dom";
+import { Home } from "../Home";
+import { Sync } from "../Sync";
+import { Setting } from "../Setting";
 const styles = require("./index.scss");
 
 interface Menus {
@@ -34,37 +34,37 @@ export class Wrapper extends React.Component<WrapperProps, HomeState> {
 
         this.state = {
             menus: [{
-                to: '/home',
-                name: 'home',
+                to: "/home",
+                name: "home",
                 showRipple: false,
             }, {
-                to: '/setting',
-                name: 'settings',
+                to: "/setting",
+                name: "settings",
                 showRipple: false,
             }, {
-                to: '/sync',
-                name: 'sync',
+                to: "/sync",
+                name: "sync",
                 showRipple: false,
             }]
-        }
+        };
 
-        this.clickMenuItem = this.clickMenuItem.bind(this)
+        this.clickMenuItem = this.clickMenuItem.bind(this);
     }
 
     clickMenuItem(i) {
-        const { menus } = this.state
-        const menuItem = menus[i]
-        menuItem.showRipple = false
+        const { menus } = this.state;
+        const menuItem = menus[i];
+        menuItem.showRipple = false;
 
         this.setState({
             menus
-        })
+        });
 
         setTimeout(() => {
-            menuItem.showRipple = true
+            menuItem.showRipple = true;
             this.setState({
                 menus
-            })
+            });
         }, 0);
 
     }
@@ -83,9 +83,9 @@ export class Wrapper extends React.Component<WrapperProps, HomeState> {
                     <ul className={styles.navList}>
                         {
                             this.state.menus.map((menu, index) => {
-                                let cn = styles.ripple
+                                let cn = styles.ripple;
                                 if (menu.showRipple) {
-                                    cn += ` ${styles.rippleEffect}`
+                                    cn += ` ${styles.rippleEffect}`;
                                 }
                                 return (
                                     <li key={menu.to}>
@@ -99,12 +99,12 @@ export class Wrapper extends React.Component<WrapperProps, HomeState> {
                                         </Link>
                                         <span className={cn}></span>
                                     </li>
-                                )
+                                );
                             })
                         }
                     </ul >
                 </nav >
             </div>
-        )
+        );
     }
 }
