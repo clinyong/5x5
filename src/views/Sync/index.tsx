@@ -15,25 +15,25 @@ interface SyncState {
 export class Sync extends React.Component<any, SyncState> {
     refs: {
         tokenInput: HTMLInputElement;
-    }
+    };
     box: Dropbox;
 
     constructor(props) {
         super(props);
 
         this.handleDownload = this.handleDownload.bind(this);
-        this.handleUpload = this.handleUpload.bind(this)
-        this.handleSetToken = this.handleSetToken.bind(this)
+        this.handleUpload = this.handleUpload.bind(this);
+        this.handleSetToken = this.handleSetToken.bind(this);
         this.state = {
             hasToken: false,
             inputFocus: false
-        }
+        };
         this.box = new Dropbox();
     }
 
     handleUpload() {
         const settings = store.get(KEY);
-        const fileName = dateFormat(new Date(), "yyyy-mm-dd-HH-MM-ss")
+        const fileName = dateFormat(new Date(), "yyyy-mm-dd-HH-MM-ss");
 
         this.box.filesUpload(`/${fileName}.json`, JSON.stringify(settings))
             .then(function (response) {
@@ -45,27 +45,27 @@ export class Sync extends React.Component<any, SyncState> {
     }
 
     handleDownload() {
-        const self = this
-        this.box.filesListFolder({ path: '' })
+        const self = this;
+        this.box.filesListFolder({ path: "" })
             .then(function (response) {
                 const latestEntry = response.entries
-                    .filter(entry => entry['.tag'] === 'file' && entry.path_lower.endsWith('.json'))
+                    .filter(entry => entry[".tag"] === "file" && entry.path_lower.endsWith(".json"))
                     .reduce((pre, cur) => {
                         if (cur.client_modified > pre.client_modified) {
-                            return cur
+                            return cur;
                         } else {
-                            return pre
+                            return pre;
                         }
-                    }, { client_modified: '', path_lower: '' })
+                    }, { client_modified: "", path_lower: "" });
 
-                if (latestEntry.path_lower === '') {
-                    return
+                if (latestEntry.path_lower === "") {
+                    return;
                 }
 
                 self.box.filesDownload(latestEntry.path_lower)
                     .then(settings => {
-                        store.set(KEY, settings)
-                    })
+                        store.set(KEY, settings);
+                    });
             })
             .catch(function (err) {
                 console.log(err);
@@ -73,30 +73,30 @@ export class Sync extends React.Component<any, SyncState> {
     }
 
     handleSetToken() {
-        const token = this.refs.tokenInput.value
+        const token = this.refs.tokenInput.value;
 
         if (token) {
             store.set(TOKEN, token);
-            this.box.setToken(token)
+            this.box.setToken(token);
             this.setState({
                 hasToken: true
-            })
+            });
         }
     }
 
 
     componentDidMount() {
-        const token = store.get(TOKEN)
+        const token = store.get(TOKEN);
         if (token) {
-            this.box.setToken(token)
+            this.box.setToken(token);
             this.setState({
                 hasToken: true
-            })
+            });
         }
     }
 
     renderSetToken() {
-        const { inputFocus } = this.state
+        const { inputFocus } = this.state;
         return (
             <div className={styles.setting}>
                 <div className={styles.inputWrapper}>
@@ -114,7 +114,7 @@ export class Sync extends React.Component<any, SyncState> {
                     Submit
                 </button>
             </div>
-        )
+        );
     }
 
     renderSync() {
@@ -128,17 +128,17 @@ export class Sync extends React.Component<any, SyncState> {
                     <i className={styles.md}>cloud_download</i>
                 </Button>
             </div>
-        )
+        );
     }
 
     render() {
         return (
             <div>
-                <NavHead title={'SYNC'} />
+                <NavHead title={"SYNC"} />
                 {
                     this.state.hasToken ? this.renderSync() : this.renderSetToken()
                 }
             </div>
-        )
+        );
     }
 }
