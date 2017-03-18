@@ -1,5 +1,8 @@
 import * as React from "react";
+import store from "store";
+import dateFormat from "dateformat";
 import { Route, NavLink as Link, Switch, Redirect } from "react-router-dom";
+import { KEY, exerciseNames } from "../../utils/constants";
 import { Home } from "../Home";
 import { Sync } from "../Sync";
 import { Setting } from "../Setting";
@@ -69,16 +72,35 @@ export class Main extends React.Component<WrapperProps, HomeState> {
 
     }
 
+    componentDidMount() {
+        const settings = store.get(KEY);
+        if (!settings) {
+            const startDate = dateFormat(new Date(), "yyyy.mm.dd");
+            const data = {
+                week: "1",
+                startDate,
+                currentWorkout: {
+                    name: "a",
+                    id: 0
+                },
+                exercises: exerciseNames.map(name => ({ name, weight: 0 })),
+                recents: []
+            };
+
+            store.set(KEY, data);
+        }
+    }
+
     render() {
         return (
             <div className={styles.container}>
                 <Switch>
-                    <Route exact path ="/" render={() => (<Redirect to="/home"/>)}/>
+                    <Route exact path="/" render={() => (<Redirect to="/home" />)} />
                     <Route path="/home" component={Home} />
                     <Route path="/sync" component={Sync} />
                     <Route path="/setting" component={Setting} />
                 </Switch>
-                
+
                 <nav className={styles.nav}>
                     <ul className={styles.navList}>
                         {
