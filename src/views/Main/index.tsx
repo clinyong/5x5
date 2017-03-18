@@ -84,7 +84,8 @@ export class Main extends React.Component<WrapperProps, HomeState> {
                     id: 0
                 },
                 exercises: exerciseNames.map(name => ({ name, weight: 0 })),
-                recents: []
+                recents: [],
+                history: []
             };
 
             store.set(KEY, data);
