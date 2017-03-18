@@ -73,6 +73,7 @@ export class Home extends React.Component<any, HomeState> {
         return (
             <div className={styles.container}>
                 <NavHead title={"STRONGLIFTS"} />
+                <h3 className={styles.week}>WEEK 3</h3>
                 <ul className={styles.workoutList}>
                     {
                         this.state.recents.map(item => {
@@ -84,7 +85,7 @@ export class Home extends React.Component<any, HomeState> {
                                             item.exercises.map(e => {
                                                 return (
                                                     <li key={`${item.date}${e.name}`}>
-                                                        {e.name}:{e.weight}kg
+                                                        {`${e.name}: ${e.weight}kg`}
                                                     </li>
                                                 );
                                             })
