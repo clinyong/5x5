@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter as Router, Route } from "react-router-dom";
-import { Wrapper } from "./views/Wrapper";
+import { Main } from "./views/Main";
 import "./index.scss";
 
 if (process.env.NODE_ENV === "production") {
@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "production") {
 function App() {
   return (
     <Router>
-      <Route path="/" component={Wrapper} />
+      <Route path="/" component={Main} />
     </Router>
   );
 }

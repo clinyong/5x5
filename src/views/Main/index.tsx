@@ -28,7 +28,7 @@ interface WrapperProps {
     location: RouterLocation;
 }
 
-export class Wrapper extends React.Component<WrapperProps, HomeState> {
+export class Main extends React.Component<WrapperProps, HomeState> {
     constructor(props) {
         super(props);
 
