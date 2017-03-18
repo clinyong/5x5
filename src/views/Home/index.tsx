@@ -14,7 +14,7 @@ function updateWeight(exercise, index) {
 }
 
 function updateDate(startDate, base) {
-    const [year, mon, day] = startDate.split('.');
+    const [year, mon, day] = startDate.split(".");
     return `${year}.${mon}.${parseInt(day, 10) + base}`;
 }
 
@@ -40,7 +40,7 @@ export class Home extends React.Component<any, HomeState> {
 
         this.state = {
             recents: []
-        }
+        };
     }
 
     componentDidMount() {
@@ -64,7 +64,7 @@ export class Home extends React.Component<any, HomeState> {
             },
         ], startDate);
 
-        this.setState({ recents })
+        this.setState({ recents });
         settings.recents = recents;
         store.set(KEY, settings);
     }
@@ -72,7 +72,7 @@ export class Home extends React.Component<any, HomeState> {
     render() {
         return (
             <div className={styles.container}>
-                <NavHead title={'STRONGLIFTS'} />
+                <NavHead title={"STRONGLIFTS"} />
                 <ul className={styles.workoutList}>
                     {
                         this.state.recents.map(item => {
@@ -86,12 +86,12 @@ export class Home extends React.Component<any, HomeState> {
                                                     <li key={`${item.date}${e.name}`}>
                                                         {e.name}:{e.weight}kg
                                                     </li>
-                                                )
+                                                );
                                             })
                                         }
                                     </ul>
                                 </li>
-                            )
+                            );
                         })
                     }
                 </ul>
@@ -102,6 +102,6 @@ export class Home extends React.Component<any, HomeState> {
                     </i>
                 </Link>
             </div>
-        )
+        );
     }
 }
