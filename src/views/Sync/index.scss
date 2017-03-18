@@ -16,6 +16,22 @@
      color: #fff;
  }
  
+ @keyframes :global(spin) {
+     from {
+         transform: rotate(0)
+     }
+     to {
+         transform: rotate(-360deg)
+     }
+ }
+ 
+ .loading {
+     @extend .md;
+      :global {
+         animation: 800ms spin infinite linear;
+     }
+ }
+ 
  .wrapper {
      width: 200px;
      margin: 40px auto 0;

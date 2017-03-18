@@ -10,6 +10,8 @@ const styles = require("./index.scss");
 interface SyncState {
     hasToken: boolean;
     inputFocus: boolean;
+    uploading: boolean;
+    downloading: boolean;
 }
 
 export class Sync extends React.Component<any, SyncState> {
@@ -26,28 +28,52 @@ export class Sync extends React.Component<any, SyncState> {
         this.handleSetToken = this.handleSetToken.bind(this);
         this.state = {
             hasToken: false,
-            inputFocus: false
+            inputFocus: false,
+            uploading: false,
+            downloading: false
         };
         this.box = new Dropbox();
     }
 
     handleUpload() {
+        const { downloading, uploading } = this.state;
+        if (downloading || uploading) {
+            return;
+        }
+
+        this.setState({
+            uploading: true
+        });
+
         const settings = store.get(KEY);
         const fileName = dateFormat(new Date(), "yyyy-mm-dd-HH-MM-ss");
 
         this.box.filesUpload(`/${fileName}.json`, JSON.stringify(settings))
-            .then(function (response) {
-                console.log(response);
+            .then(() => {
+                this.setState({
+                    uploading: false
+                });
             })
-            .catch(function (error) {
+            .catch(error => {
                 console.error(error);
+                this.setState({
+                    uploading: false
+                });
             });
     }
 
     handleDownload() {
-        const self = this;
+        const { downloading, uploading } = this.state;
+        if (downloading || uploading) {
+            return;
+        }
+
+        this.setState({
+            downloading: true
+        });
+
         this.box.filesListFolder({ path: "" })
-            .then(function (response) {
+            .then(response => {
                 const latestEntry = response.entries
                     .filter(entry => entry[".tag"] === "file" && entry.path_lower.endsWith(".json"))
                     .reduce((pre, cur) => {
@@ -62,13 +88,24 @@ export class Sync extends React.Component<any, SyncState> {
                     return;
                 }
 
-                self.box.filesDownload(latestEntry.path_lower)
+                this.box.filesDownload(latestEntry.path_lower)
                     .then(settings => {
                         store.set(KEY, settings);
+                        this.setState({
+                            downloading: false
+                        });
+                    }).catch(err => {
+                        console.error(err);
+                        this.setState({
+                            downloading: false
+                        });
                     });
             })
-            .catch(function (err) {
+            .catch(err => {
                 console.log(err);
+                this.setState({
+                    downloading: false
+                });
             });
     }
 
@@ -118,14 +155,23 @@ export class Sync extends React.Component<any, SyncState> {
     }
 
     renderSync() {
+        const { downloading, uploading } = this.state;
         return (
             <div className={styles.wrapper}>
                 <Button className={styles.btn} onClick={this.handleUpload}>
-                    <i className={styles.md}>cloud_upload</i>
+                    {
+                        uploading ?
+                            <i className={styles.loading}>sync</i> :
+                            <i className={styles.md}>cloud_upload</i>
+                    }
                 </Button>
 
                 <Button className={styles.btn} onClick={this.handleDownload}>
-                    <i className={styles.md}>cloud_download</i>
+                    {
+                        downloading ?
+                            <i className={styles.loading}>sync</i> :
+                            <i className={styles.md}>cloud_download</i>
+                    }
                 </Button>
             </div>
         );
