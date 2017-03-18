@@ -32,6 +32,7 @@ interface RecentItem {
 
 interface HomeState {
     recents: RecentItem[];
+    week: string;
 }
 
 export class Home extends React.Component<any, HomeState> {
@@ -39,13 +40,14 @@ export class Home extends React.Component<any, HomeState> {
         super(props);
 
         this.state = {
-            recents: []
+            recents: [],
+            week: ""
         };
     }
 
     componentDidMount() {
         const settings = store.get(KEY);
-        const { exercises, currentWorkout, startDate } = settings;
+        const { exercises, currentWorkout, startDate, week } = settings;
         const id = currentWorkout.id;
         const current = workouts[id].map(w => exercises[w]);
         const next = workouts[1 - id].map(w => exercises[w]);
@@ -64,19 +66,20 @@ export class Home extends React.Component<any, HomeState> {
             },
         ], startDate);
 
-        this.setState({ recents });
+        this.setState({ recents, week });
         settings.recents = recents;
         store.set(KEY, settings);
     }
 
     render() {
+        const { week, recents } = this.state;
         return (
             <div className={styles.container}>
                 <NavHead title={"STRONGLIFTS"} />
-                <h3 className={styles.week}>WEEK 3</h3>
+                <h3 className={styles.week}>WEEK {week}</h3>
                 <ul className={styles.workoutList}>
                     {
-                        this.state.recents.map(item => {
+                        recents.map(item => {
                             return (
                                 <li key={item.date}>
                                     <h3 className={styles.date}>{item.date}</h3>

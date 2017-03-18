@@ -13,6 +13,7 @@ interface SettingState {
     exercises: ExerciseProps[];
     currentWorkout: WorkoutProps;
     startDate: string;
+    week: string;
 }
 
 export class Setting extends React.Component<any, SettingState> {
@@ -22,22 +23,23 @@ export class Setting extends React.Component<any, SettingState> {
         this.state = {
             exercises: [],
             currentWorkout: {
-                name: '',
+                name: "",
                 id: -1
             },
-            startDate: ''
-        }
-        this.handleConfirm = this.handleConfirm.bind(this)
+            startDate: "",
+            week: "1"
+        };
+        this.handleConfirm = this.handleConfirm.bind(this);
     }
 
     handleConfirm() {
         const settings = store.get(KEY);
 
         if (settings) {
-            store.set(KEY, Object.assign({}, settings, this.state))
+            store.set(KEY, Object.assign({}, settings, this.state));
         }
 
-        store.set(KEY, this.state)
+        store.set(KEY, this.state);
     }
 
     handleChange(stateKey, val) {
@@ -47,30 +49,25 @@ export class Setting extends React.Component<any, SettingState> {
     }
 
     handleExerciseChange(index, val) {
-        const { exercises } = this.state
-        exercises[index].weight = val
+        const { exercises } = this.state;
+        exercises[index].weight = val;
         this.setState({
             exercises
-        })
+        });
     }
 
     componentDidMount() {
         const settings = store.get(KEY);
         if (settings) {
-            const { exercises, currentWorkout, startDate } = settings;
-            this.setState({
-                exercises,
-                currentWorkout,
-                startDate
-            })
+            this.setState(settings);
         }
     }
 
     render() {
-        const { exercises, currentWorkout, startDate } = this.state
+        const { exercises, currentWorkout, startDate, week } = this.state;
         return (
             <div>
-                <NavHead title={'SETTING'} />
+                <NavHead title={"SETTING"} />
                 <ul className={styles.settings}>
                     {
                         exercises.map((e, index) => {
@@ -87,7 +84,7 @@ export class Setting extends React.Component<any, SettingState> {
                                         }
                                     />
                                 </li>
-                            )
+                            );
                         })
                     }
                     <li>
@@ -101,7 +98,7 @@ export class Setting extends React.Component<any, SettingState> {
                                 e => this.setState({
                                     currentWorkout: {
                                         name: e.target.value,
-                                        id: e.target.value === 'a' ? 0 : 1
+                                        id: e.target.value === "a" ? 0 : 1
                                     }
                                 })
                             }
@@ -113,11 +110,17 @@ export class Setting extends React.Component<any, SettingState> {
                         </span>
                         <input type="text" value={startDate} onChange={e => this.setState({ startDate: e.target.value })} />
                     </li>
+                    <li>
+                        <span>
+                            Week
+                        </span>
+                        <input type="text" value={week} onChange={e => this.setState({ week: e.target.value })} />
+                    </li>
                 </ul>
                 <button className={styles.submit} onClick={this.handleConfirm}>
                     确定
                 </button>
             </div>
-        )
+        );
     }
 }
