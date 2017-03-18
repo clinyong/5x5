@@ -1,8 +1,9 @@
 import * as React from "react";
 import store from "store";
-import { Link } from "react-router-dom";
 import { KEY, workouts, ExerciseProps } from "../../utils/constants";
 import { NavHead } from "../../components/NavHead";
+import { Button } from "../../components/Button";
+import { Play } from "../../components/Play";
 const styles = require("./index.scss");
 
 function updateWeight(exercise, index) {
@@ -33,6 +34,7 @@ interface RecentItem {
 interface HomeState {
     recents: RecentItem[];
     week: string;
+    showPlay: boolean;
 }
 
 export class Home extends React.Component<any, HomeState> {
@@ -41,7 +43,8 @@ export class Home extends React.Component<any, HomeState> {
 
         this.state = {
             recents: [],
-            week: ""
+            week: "",
+            showPlay: false
         };
     }
 
@@ -72,7 +75,7 @@ export class Home extends React.Component<any, HomeState> {
     }
 
     render() {
-        const { week, recents } = this.state;
+        const { week, recents, showPlay } = this.state;
         return (
             <div className={styles.container}>
                 <NavHead title={"STRONGLIFTS"} />
@@ -100,11 +103,13 @@ export class Home extends React.Component<any, HomeState> {
                     }
                 </ul>
 
-                <Link to="/play" className={styles.beginWrapper}>
+                <Button className={styles.beginWrapper} onClick={() => this.setState({ showPlay: true })}>
                     <i className={styles.begin}>
                         play_arrow
                     </i>
-                </Link>
+                </Button>
+
+                <Play visible={showPlay} handleBack={() => this.setState({ showPlay: false })} />
             </div>
         );
     }

@@ -33,41 +33,4 @@
             height: 100%;
         }
     }
-    .play-appear {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(30px);
-    }
-    .play-appear.play-appear-active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        transition: 300ms linear;
-    }
-    .play-enter {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    .play-enter.play-enter-active {
-        opacity: 1;
-        transform: translateY(0);
-        transition: 300ms linear;
-    }
-    .play-leave {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .play-leave.play-leave-active {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: 300ms linear;
-    }
-    .fade-enter {
-        opacity: 0;
-        z-index: 1;
-    }
-    .fade-enter.fade-enter-active {
-        opacity: 1;
-        transition: opacity 250ms ease-in;
-    }
 }

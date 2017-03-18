@@ -1,12 +1,11 @@
 import * as React from "react";
 import store from "store";
 import { KEY, workouts } from "../../utils/constants";
-import { Link } from "react-router-dom";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 const styles = require("./index.scss");
 
 function updateDate(startDate, base) {
-    const [year, mon, day] = startDate.split('.');
+    const [year, mon, day] = startDate.split(".");
     return `${year}.${mon}.${parseInt(day, 10) + base}`;
 }
 
@@ -19,7 +18,12 @@ function updateWeight(exercise, index) {
 }
 
 function toggleWorkout(w) {
-    return w.id === 0 ? { name: 'b', id: 1 } : { name: 'a', id: 0 };
+    return w.id === 0 ? { name: "b", id: 1 } : { name: "a", id: 0 };
+}
+
+interface PlayProps {
+    visible: boolean;
+    handleBack: React.EventHandler<React.MouseEvent<HTMLAnchorElement>>;
 }
 
 interface PlayState {
@@ -27,18 +31,18 @@ interface PlayState {
     done: boolean;
 }
 
-export class Play extends React.Component<any, PlayState> {
+export class Play extends React.Component<PlayProps, PlayState> {
     exeCount: number;
 
     constructor(props) {
         super(props);
 
-        this.handleDone = this.handleDone.bind(this)
-        this.handleCount = this.handleCount.bind(this)
+        this.handleDone = this.handleDone.bind(this);
+        this.handleCount = this.handleCount.bind(this);
         this.state = {
             count: 0,
             done: false
-        }
+        };
         this.exeCount = 0;
     }
 
@@ -78,20 +82,20 @@ export class Play extends React.Component<any, PlayState> {
         const { exeCount } = this;
 
         if (exeCount === 3) {
-            this.handleDone()
+            this.handleDone();
             this.setState({
                 done: true
-            })
+            });
         } else {
             if (count === 5) {
-                this.exeCount += 1
+                this.exeCount += 1;
                 this.setState({
                     count: 0
-                })
+                });
             } else {
                 this.setState({
                     count: count + 1
-                })
+                });
             }
 
         }
@@ -99,17 +103,18 @@ export class Play extends React.Component<any, PlayState> {
 
     render() {
         const { count, done } = this.state;
+        const { visible, handleBack } = this.props;
         if (done) {
-            return <Redirect to="/" />
+            return <Redirect to="/" />;
         }
 
         return (
-            <div className={styles.container}>
+            <div className={visible ? styles.containerVisible : styles.containerHidden}>
                 <div className={styles.head}
                 >
-                    <Link to={'/'} className={styles.backWrapper}>
+                    <a className={styles.backWrapper} onClick={handleBack}>
                         <i className={styles.back}>arrow_back</i>
-                    </Link>
+                    </a>
                     <span className={styles.title}>Play</span>
                 </div>
 
@@ -122,6 +127,6 @@ export class Play extends React.Component<any, PlayState> {
                     </button>
                 </div>
             </div>
-        )
+        );
     }
 }

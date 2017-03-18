@@ -1,5 +1,23 @@
-.container {
-    height: 100%;
+.containerHidden {
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #FAFAFA;
+    transform: translateY(40px);
+    opacity: .5;
+    transition: .2s linear;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.containerVisible {
+    @extend .containerHidden;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .head {
@@ -52,7 +70,6 @@
     color: #fff;
     font-size: 50px;
     line-height: 100px;
-    transition: .3s;
 }
 
 .done {
