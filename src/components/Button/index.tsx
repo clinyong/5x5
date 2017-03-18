@@ -3,6 +3,7 @@ const styles = require("./index.scss");
 
 interface ButtonProps {
     className?: string;
+    rippleClass?: string;
     onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
 }
 
@@ -58,22 +59,25 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     render() {
-        const { children, className } = this.props;
+        const { children, className, rippleClass } = this.props;
         const { showRipple, rippleLeft, rippleTop, rippleWidth } = this.state;
         let cn = styles.container;
         if (className) {
             cn = `${cn} ${className}`;
         }
 
-        let rippleCN = styles.ripple;
+        let rippleCN = [styles.ripple];
+        if (rippleClass) {
+            rippleCN.push(rippleClass);
+        }
         if (showRipple) {
-            rippleCN = `${rippleCN} ${styles.rippleEffect}`;
+            rippleCN.push(styles.rippleEffect);
         }
         return (
             <button className={cn} onClick={this.handleClick} ref={btn => this.btn = btn}>
                 {children}
                 <span
-                    className={rippleCN}
+                    className={rippleCN.join(" ")}
                     style={{ left: rippleLeft, top: rippleTop, width: rippleWidth, height: rippleWidth }}
                     ref={ele => this.rippleEle = ele}
                 ></span>

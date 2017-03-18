@@ -12,6 +12,7 @@ interface SyncState {
     inputFocus: boolean;
     uploading: boolean;
     downloading: boolean;
+    showError: boolean;
 }
 
 export class Sync extends React.Component<any, SyncState> {
@@ -30,7 +31,8 @@ export class Sync extends React.Component<any, SyncState> {
             hasToken: false,
             inputFocus: false,
             uploading: false,
-            downloading: false
+            downloading: false,
+            showError: false
         };
         this.box = new Dropbox();
     }
@@ -57,12 +59,14 @@ export class Sync extends React.Component<any, SyncState> {
             .catch(error => {
                 console.error(error);
                 this.setState({
-                    uploading: false
+                    uploading: false,
+                    showError: true
                 });
             });
     }
 
     handleDownload() {
+
         const { downloading, uploading } = this.state;
         if (downloading || uploading) {
             return;
@@ -97,14 +101,16 @@ export class Sync extends React.Component<any, SyncState> {
                     }).catch(err => {
                         console.error(err);
                         this.setState({
-                            downloading: false
+                            downloading: false,
+                            showError: true
                         });
                     });
             })
             .catch(err => {
                 console.log(err);
                 this.setState({
-                    downloading: false
+                    downloading: false,
+                    showError: true
                 });
             });
     }
@@ -178,11 +184,29 @@ export class Sync extends React.Component<any, SyncState> {
     }
 
     render() {
+        const { hasToken, showError } = this.state;
         return (
             <div>
                 <NavHead title={"SYNC"} />
                 {
-                    this.state.hasToken ? this.renderSync() : this.renderSetToken()
+                    hasToken ? this.renderSync() : this.renderSetToken()
+                }
+
+                {
+                    showError ?
+                        <div className={styles.modal}>
+                            <div className={styles.modalContent}>
+                                <p className={styles.modalMsg}>Network fail.</p>
+
+                                <Button
+                                    className={styles.modalBTN}
+                                    rippleClass={styles.btnRipple}
+                                    onClick={() => this.setState({ showError: false })}
+                                >
+                                    OK
+                                </Button>
+                            </div>
+                        </div> : null
                 }
             </div>
         );
