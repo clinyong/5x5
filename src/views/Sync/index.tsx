@@ -4,6 +4,7 @@ import dateFormat from "dateformat";
 import { Dropbox } from "../../utils/Dropbox";
 import { KEY, TOKEN } from "../../utils/constants";
 import { NavHead } from "../../components/NavHead";
+import { Button } from "../../components/Button";
 const styles = require("./index.scss");
 
 interface SyncState {
@@ -119,13 +120,13 @@ export class Sync extends React.Component<any, SyncState> {
     renderSync() {
         return (
             <div className={styles.wrapper}>
-                <button className={styles.btn} onClick={this.handleUpload}>
+                <Button className={styles.btn} onClick={this.handleUpload}>
                     <i className={styles.md}>cloud_upload</i>
-                </button>
+                </Button>
 
-                <button className={styles.btn} onClick={this.handleDownload}>
+                <Button className={styles.btn} onClick={this.handleDownload}>
                     <i className={styles.md}>cloud_download</i>
-                </button>
+                </Button>
             </div>
         )
     }

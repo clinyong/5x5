@@ -2,6 +2,7 @@ import * as React from "react";
 import store from "store";
 import { KEY, ExerciseProps } from "../../utils/constants";
 import { NavHead } from "../../components/NavHead";
+import { Button } from "../../components/Button";
 const styles = require("./index.scss");
 
 interface WorkoutProps {
@@ -117,9 +118,9 @@ export class Setting extends React.Component<any, SettingState> {
                         <input type="text" value={week} onChange={e => this.setState({ week: e.target.value })} />
                     </li>
                 </ul>
-                <button className={styles.submit} onClick={this.handleConfirm}>
+                <Button className={styles.submit} onClick={this.handleConfirm}>
                     确定
-                </button>
+                </Button>
             </div>
         );
     }
