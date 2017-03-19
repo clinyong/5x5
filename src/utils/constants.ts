@@ -19,3 +19,9 @@ export interface ExerciseProps {
   name: string;
   weight: number;
 }
+
+export interface RecentItem {
+  exercises: ExerciseProps[];
+  workoutID: number;
+  date: string;
+}

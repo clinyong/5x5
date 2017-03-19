@@ -1,6 +1,6 @@
 import * as React from "react";
 import store from "store";
-import { KEY, workouts } from "../../utils/constants";
+import { KEY, workouts, RecentItem } from "../../utils/constants";
 import { Redirect } from "react-router-dom";
 const styles = require("./index.scss");
 
@@ -29,6 +29,8 @@ interface PlayProps {
 interface PlayState {
     count: number;
     done: boolean;
+    recents: RecentItem[];
+    exeIndex: number;
 }
 
 export class Play extends React.Component<PlayProps, PlayState> {
@@ -41,7 +43,9 @@ export class Play extends React.Component<PlayProps, PlayState> {
         this.handleCount = this.handleCount.bind(this);
         this.state = {
             count: 0,
-            done: false
+            done: false,
+            recents: [],
+            exeIndex: 0
         };
         this.exeCount = 0;
     }
@@ -78,7 +82,7 @@ export class Play extends React.Component<PlayProps, PlayState> {
     }
 
     handleCount() {
-        const { count } = this.state;
+        const { count, exeIndex } = this.state;
         const { exeCount } = this;
 
         if (exeCount === 3) {
@@ -90,7 +94,8 @@ export class Play extends React.Component<PlayProps, PlayState> {
             if (count === 5) {
                 this.exeCount += 1;
                 this.setState({
-                    count: 0
+                    count: 0,
+                    exeIndex: exeIndex + 1
                 });
             } else {
                 this.setState({
@@ -101,11 +106,23 @@ export class Play extends React.Component<PlayProps, PlayState> {
         }
     }
 
+    componentDidMount() {
+        const settings = store.get(KEY);
+        this.setState({
+            recents: settings.recents
+        });
+    }
+
     render() {
-        const { count, done } = this.state;
+        const { count, done, recents, exeIndex } = this.state;
         const { visible, handleBack } = this.props;
         if (done) {
             return <Redirect to="/" />;
+        }
+
+        let currentExercise = { name: "", weight: 0 };
+        if (recents[0]) {
+            currentExercise = recents[0].exercises[exeIndex];
         }
 
         return (
@@ -119,8 +136,9 @@ export class Play extends React.Component<PlayProps, PlayState> {
                 </div>
 
                 <div className={styles.content}>
-                    <div className={styles.count}>
-                        {count}
+                    <div className={styles.countWrapper}>
+                        <h2 className={styles.count}>{count}</h2>
+                        <p>{`${currentExercise.name}: ${currentExercise.weight}kg`}</p>
                     </div>
                     <button className={styles.done} onClick={this.handleCount}>
                         Done
