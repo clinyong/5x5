@@ -1,6 +1,7 @@
 import * as React from "react";
 import store from "store";
 import { KEY, workouts, RecentItem } from "../../utils/constants";
+import { Button } from "../../components/Button";
 import { Redirect } from "react-router-dom";
 const styles = require("./index.scss");
 
@@ -140,9 +141,9 @@ export class Play extends React.Component<PlayProps, PlayState> {
                         <h2 className={styles.count}>{count}</h2>
                         <p>{`${currentExercise.name}: ${currentExercise.weight}kg`}</p>
                     </div>
-                    <button className={styles.done} onClick={this.handleCount}>
+                    <Button className={styles.done} onClick={this.handleCount}>
                         Done
-                    </button>
+                    </Button>
                 </div>
             </div>
         );
