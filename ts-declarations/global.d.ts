@@ -5,3 +5,4 @@ interface ProcessProps {
 }
 
 declare const process: ProcessProps;
+declare var module: { hot: any };

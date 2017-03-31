@@ -19,7 +19,16 @@ function App() {
 }
 
 const rootEl = document.getElementById("root");
-ReactDOM.render(
-  <App />,
-  rootEl
-);
+function render(Component) {
+  ReactDOM.render(
+    <Component />,
+    rootEl
+  );
+}
+
+render(App);
+
+if (module.hot) {
+  module.hot.accept();
+  render(App);
+}
